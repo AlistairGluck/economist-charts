@@ -1,0 +1,44 @@
+---
+title: "Economist-chart"
+author: "Alistair Gluck"
+date: "4/11/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+library(ggthemes)
+```
+
+```{r cache = TRUE, echo = FALSE}
+download.file(url = "http://infographics.economist.com/databank/Economist_brexit.csv", mode = "wb", destfile = "brexit_views.csv")
+
+brexit <- read_csv(file = "brexit_views.csv", skip = 3, col_types = cols(
+  Date = col_date(format = "%d/%m/%y"),
+  `% responding right` = col_double(),
+  `% responding wrong` = col_double()))
+```
+
+```{r echo = FALSE, message=FALSE}
+brexit %>% 
+  rename("Right" = "% responding right", "Wrong" = "% responding wrong") %>% 
+  ggplot(aes(Date)) +
+  geom_smooth(aes(y = Right, color = "navyblue"), se = FALSE) +
+  geom_smooth(aes(y = Wrong, color = "red"), se = FALSE) +
+  geom_point(aes(y = Right, color = "navyblue"), alpha = .5) +
+  geom_point(aes(y = Wrong, color = "red"), alpha = .5)+
+  scale_y_continuous(limits = c(36, 48), breaks = c(38, 40, 42, 44, 46, 48), position = "right") +
+  #scale_x_date(date_breaks = "month", date_labels = ) +
+  theme_economist_white() +
+  theme(axis.title.x = element_blank(),
+       axis.title.y = element_blank(), 
+       legend.position = "none") +
+  labs(title = "Bremorse", subtitle = "\"In hindsight do you think Britain was right or wrong\n to vote to leave the EU\"")
+
+  
+  
+```
+
+
