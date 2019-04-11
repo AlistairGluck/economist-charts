@@ -35,7 +35,7 @@ brexit %>%
   theme(axis.title.x = element_blank(),
        axis.title.y = element_blank(), 
        legend.position = "none") +
-  labs(title = "Bremorse", subtitle = "\"In hindsight do you think Britain was right or wrong\n to vote to leave the EU\"")
+  labs(title = "Bremorse", subtitle = "\"In hindsight do you think Britain was right or wrong\n to vote to leave the EU\" \nBlue represents Brexit supporters and Red represents opponents")
 
   
   
